@@ -8,7 +8,7 @@
     "jasmine": "^2.4.1"
   },
   "scripts": {
-    "test": "jasmine spec/"
+    "test": "jasmine"
   },
   "repository": {
     "type": "git",
