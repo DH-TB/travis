@@ -1,4 +1,4 @@
-var add = require('../src/main.js');
+require('../src/main.js');
 describe("travis", function () {
 
     var input1 = 1;
