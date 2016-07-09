@@ -1,0 +1,24 @@
+{
+  "name": "travis",
+  "version": "1.0.0",
+  "description": "readme.md",
+  "main": "index.js",
+  "dependencies": {},
+  "devDependencies": {
+    "jasmine": "^2.4.1"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DH-TB/travis.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/DH-TB/travis/issues"
+  },
+  "homepage": "https://github.com/DH-TB/travis#readme"
+}
