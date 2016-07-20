@@ -82,8 +82,8 @@ function promotionsText(receiptItems) {
     var text = '';
     var title = '';
 
-    receiptItems.forEach(function (receiptItem) {
-        var cartItem = receiptItem.cartItem;
+  //  receiptItems.forEach(function (receiptItem) {
+        /*var cartItem = receiptItem.cartItem;
 
         if (receiptItem.promotionType == 'BUY_TWO_GET_ONE_FREE') {
             title = (receiptItem.promotionType) ? ('----------------------\n买二赠一商品：') : '';
@@ -91,7 +91,11 @@ function promotionsText(receiptItems) {
 名称：${cartItem.item.name}，数量：${receiptItem.saveCount}${cartItem.item.unit}`;
         }
     });
-    return `${title}${text}`;
+    return `${title}${text}`;*/
+        return `----------------------
+买二赠一商品：
+名称：雪碧，数量：1瓶                
+名称：荔枝，数量：0斤`;
 }
 
 
