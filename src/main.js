@@ -97,5 +97,6 @@ module.exports = {
     buildCartItems:buildCartItems,
     buildReceiptItems:buildReceiptItems,
     buildReceipt:buildReceipt,
-    printReceipt:printReceipt
+    printReceipt:printReceipt,
+    buildReceiptText:buildReceiptText
 };
