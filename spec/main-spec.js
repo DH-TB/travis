@@ -592,8 +592,8 @@ describe('unit test', function () {
                         saved: 0.55,
                         subTotal: 10.45
                     }],
-                savedTotal: 3.55,
-                total: 52.45
+                allSaved: 3.55,
+                allTotal: 52.45
             };
 
             expect(mainData.buildReceipt(receiptItems)).toEqual(expectText);

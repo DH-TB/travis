@@ -79,10 +79,10 @@ let buildReceipt = (receiptItems)=> {
 }
 
 function promotionsText(receiptItems) {
-    var text = '';
-    var title = '';
+    let text = '';
+    let title = '';
 
-    receiptItems.forEach(function (receiptItem) {
+    for(let receiptItem of receiptItems){
         var item = receiptItem.cartItem.item;
 
         if (receiptItem.promotionType == 'BUY_TWO_GET_ONE_FREE') {
@@ -90,7 +90,7 @@ function promotionsText(receiptItems) {
 
             text += '名称：' + item.name + '，数量：' + receiptItem.saveCount + item.unit + '\n';
         }
-    });
+    }
     text = title + text;
     return text;
 }
