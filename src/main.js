@@ -79,21 +79,22 @@ let buildReceipt = (receiptItems)=> {
 }
 
 function promotionsText(receiptItems) {
-    let text = '';
-    let title = '';
+    var text = '';
+    var title = '';
 
-    for(let receiptItem of receiptItems){
-        var cartItem = receiptItem.cartItem;
+    receiptItems.forEach(function (receiptItem) {
+        var item = receiptItem.cartItem.item;
 
         if (receiptItem.promotionType == 'BUY_TWO_GET_ONE_FREE') {
             title = (receiptItem.promotionType) ? ('----------------------\n买二赠一商品：') : '';
-            text += `
-名称：${cartItem.item.name}，数量：${receiptItem.saveCount}${cartItem.item.unit}`;
+
+            text +='\n'+'名称：' + item.name + '，数量：' + receiptItem.saveCount + item.unit;
         }
-    }
+    });
     text = title + text;
     return text;
 }
+
 
 function text(receiptItems) {
    return receiptItems.map(receiptItem=> {
@@ -127,3 +128,21 @@ module.exports = {
     buildReceiptText: buildReceiptText,
     promotionsText:promotionsText
 };
+
+/*
+function promotionsText(receiptItems) {
+    let text = '';
+    let title = '';
+
+    for(let receiptItem of receiptItems){
+        var cartItem = receiptItem.cartItem;
+
+        if (receiptItem.promotionType == 'BUY_TWO_GET_ONE_FREE') {
+            title = (receiptItem.promotionType) ? ('----------------------\n买二赠一商品：') : '';
+            text += `
+名称：${cartItem.item.name}，数量：${receiptItem.saveCount}${cartItem.item.unit}`;
+        }
+    }
+    text = title + text;
+    return text;
+}*/
