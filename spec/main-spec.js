@@ -357,9 +357,7 @@ describe('intergation test', function () {
 总计：52.45(元)
 节省：3.55(元)
 **********************`;
-
         expect(console.log).toHaveBeenCalledWith(expectText);
-
     });
 });
 
