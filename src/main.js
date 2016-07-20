@@ -86,7 +86,7 @@ function promotionsText(receiptItems) {
         var item = receiptItem.cartItem.item;
 
         if (receiptItem.promotionType == 'BUY_TWO_GET_ONE_FREE') {
-            title = (receiptItem.promotionType) ? ('\n----------------------\n买二赠一商品：') : '';
+            title = (receiptItem.promotionType) ? ('----------------------\n买二赠一商品：') : '';
 
             text += '\n'+ '名称：' + item.name + '，数量：' + receiptItem.saveCount + item.unit;
         }
