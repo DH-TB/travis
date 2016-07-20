@@ -1,22 +1,21 @@
 'use strict';
-var fixtures = require('../spec/fixtures.js');
-function printReceipt(tags) {
 
+var fixtures = require('../spec/fixtures.js');
+
+function printReceipt(tags) {
     const allItems = fixtures.loadAllItems();
     const cartItems = buildCartItems(tags, allItems);
 
-    const allPromotions = fixtures.loadPromotions();
-    const receiptItems = buildReceiptItems(cartItems, allPromotions);
+    const promotions = fixtures.loadPromotions();
+    const receiptItems = buildReceiptItems(cartItems, promotions);
 
     const receipt = buildReceipt(receiptItems);
-
     const receiptText = buildReceiptText(receipt);
 
     console.log(receiptText);
 }
 
 function buildCartItems(inputs, allItems) {
-
     let cartItems = [];
 
     for (let input of inputs) {
@@ -38,24 +37,24 @@ function buildCartItems(inputs, allItems) {
     return cartItems;
 }
 
-let buildReceiptItems = (cartItems, promotions)=> {
+function buildReceiptItems(cartItems, promotions) {
     return cartItems.map(cartItem=> {
-        let promotionType = getPromotionType(cartItem.item.barcode, promotions);
-        let {saved, subTotal, saveCount} = discount(cartItem, promotionType);
+        let promotionType = findPromotionType(cartItem.item.barcode, promotions);
+        let {saved, subTotal, saveCount} = disCount(cartItem, promotionType);
         return {cartItem, saved, subTotal, saveCount, promotionType};
     })
 }
 
-let getPromotionType = (barcode, promotions)=> {
+function findPromotionType(barcode, promotions) {
     let promotion = promotions.find(promotion=>promotion.barcodes.includes(barcode));
 
     return promotion ? promotion.type : '';
 }
 
-let discount = (cartItem, promotionType)=> {
+function disCount (cartItem, promotionType) {
     let saved = 0;
-    let subTotal = cartItem.count * cartItem.item.price;
     let saveCount = 0;
+    let subTotal = cartItem.count * cartItem.item.price;
 
     if (promotionType === 'BUY_TWO_GET_ONE_FREE') {
         saveCount = parseInt(cartItem.count / 3);
@@ -68,7 +67,7 @@ let discount = (cartItem, promotionType)=> {
     return {saved, subTotal, saveCount};
 }
 
-let buildReceipt = (receiptItems)=> {
+function buildReceipt(receiptItems) {
     let allSaved = 0;
     let allTotal = 0;
     for (let receiptItem of receiptItems) {
@@ -77,7 +76,7 @@ let buildReceipt = (receiptItems)=> {
     }
     return {receiptItems, allSaved, allTotal};
 }
-
+/*
 function promotionsText(receiptItems) {
     var text = '';
     var title = '';
@@ -93,7 +92,22 @@ function promotionsText(receiptItems) {
     });
     text = title + text;
     return text;
-}
+}*/
+
+function promotionsText(receiptItems) {
+    let title = '';
+
+    let text = receiptItems.map(receiptItem=> {
+        const cartItem = receiptItem.cartItem;
+        if (receiptItem.promotionType == 'BUY_TWO_GET_ONE_FREE') {
+            title = (receiptItem.promotionType) ? (`----------------------
+买二赠一商品：`) : ``;
+            return `名称：${cartItem.item.name}，数量：${receiptItem.saveCount}${cartItem.item.unit}`;
+        }
+    }).join('\n');
+
+    return `${title}${text}`;
+
 
 
 function text(receiptItems) {
@@ -128,21 +142,3 @@ module.exports = {
     buildReceiptText: buildReceiptText,
     promotionsText:promotionsText
 };
-
-/*
-function promotionsText(receiptItems) {
-    let text = '';
-    let title = '';
-
-    for(let receiptItem of receiptItems){
-        var cartItem = receiptItem.cartItem;
-
-        if (receiptItem.promotionType == 'BUY_TWO_GET_ONE_FREE') {
-            title = (receiptItem.promotionType) ? ('----------------------\n买二赠一商品：') : '';
-            text += `
-名称：${cartItem.item.name}，数量：${receiptItem.saveCount}${cartItem.item.unit}`;
-        }
-    }
-    text = title + text;
-    return text;
-}*/
