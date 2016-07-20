@@ -36,7 +36,7 @@ function loadAllItems(){
       barcode: 'ITEM000005',
       name: '方便面',
       unit: '袋',
-      price: 4.50
+      price: 5.50
     }
   ];
 }

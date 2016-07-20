@@ -104,7 +104,7 @@ let buildReceiptText = (receipt)=> {
 单价：${formate(cartItem.item.price)}(元)，\
 小计：${formate(receiptItem.subTotal)}(元)`;
     }).join('\n');
-    
+
 
     return `***<没钱赚商店>收据***
 ${receiptItems}
@@ -124,5 +124,6 @@ module.exports = {
     buildReceiptItems: buildReceiptItems,
     buildReceipt: buildReceipt,
     printReceipt: printReceipt,
-    buildReceiptText: buildReceiptText
+    buildReceiptText: buildReceiptText,
+    promotionsText:promotionsText
 };
