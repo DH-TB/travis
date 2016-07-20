@@ -1,6 +1,6 @@
 xdescribe('pos', () => {
-    let inputs;
-    let allItems;
+    var inputs;
+    var allItems;
 
     beforeEach(() => {
         allItems = fixtures.loadAllItems();
@@ -23,7 +23,7 @@ xdescribe('pos', () => {
 
         mainData.printReceipt(inputs);
 
-        const expectText = `***<没钱赚商店>收据***
+        var expectText = `***<没钱赚商店>收据***
 名称：雪碧，数量：5瓶，单价：3.00(元)，小计：12.00(元)
 名称：荔枝，数量：2斤，单价：15.00(元)，小计：30.00(元)
 名称：方便面，数量：3袋，单价：4.50(元)，小计：9.00(元)
@@ -37,7 +37,7 @@ xdescribe('pos', () => {
 
     it('build cartItems', () => {
 
-        const expectCartItems = [
+        var expectCartItems = [
             {
                 item: {
                     barcode: 'ITEM000001',
@@ -71,8 +71,8 @@ xdescribe('pos', () => {
 });
 
 xdescribe('buildReceiptItems', ()=> {
-    let cartItems;
-    let promotions;
+    var cartItems;
+    var promotions;
 
     beforeEach(()=> {
         promotions = fixtures.loadPromotions();
@@ -108,7 +108,7 @@ xdescribe('buildReceiptItems', ()=> {
     });
 
     it('should print receiptItems ', ()=> {
-        const expectText = [
+        var expectText = [
             {
                 cartItem: {
                     item: {
@@ -156,7 +156,7 @@ xdescribe('buildReceiptItems', ()=> {
 });
 
 xdescribe('buildReceipt', ()=> {
-    let receiptItems = [
+    var receiptItems = [
         {
             cartItem: {
                 item: {
@@ -201,7 +201,7 @@ xdescribe('buildReceipt', ()=> {
     ];
 
     it('build receipt', ()=> {
-        const expectText =
+        var expectText =
         {
             receiptItems: [
                 {
@@ -253,7 +253,7 @@ xdescribe('buildReceipt', ()=> {
 });
 
 xdescribe('buildReceiptText', ()=> {
-    const receipt =
+    var receipt =
     {
         receiptItems: [
             {
@@ -301,7 +301,7 @@ xdescribe('buildReceiptText', ()=> {
     };
 
     it('build receiptText', ()=> {
-        const receiptText =
+        var receiptText =
             `***<没钱赚商店>收据***
 名称：雪碧，数量：5瓶，单价：3.00(元)，小计：12.00(元)
 名称：荔枝，数量：2斤，单价：15.00(元)，小计：30.00(元)
@@ -316,13 +316,13 @@ xdescribe('buildReceiptText', ()=> {
 
 
 
-const mainData = require('../src/main.js');
-const fixtures = require('./fixtures.js');
+var mainData = require('../src/main.js');
+var fixtures = require('./fixtures.js');
 
 describe('intergation test', function () {
 
-    let allItems;
-    let inputs;
+    var allItems;
+    var inputs;
 
     beforeEach(function () {
         allItems = fixtures.loadAllItems();
@@ -345,7 +345,7 @@ describe('intergation test', function () {
 
         mainData.printReceipt(inputs);
 
-        const expectText = `***<没钱赚商店>收据***
+        var expectText = `***<没钱赚商店>收据***
 名称：雪碧，数量：5瓶，单价：3.00(元)，小计：12.00(元)
 名称：荔枝，数量：2斤，单价：15.00(元)，小计：30.00(元)
 名称：方便面，数量：2袋，单价：5.50(元)，小计：10.45(元)
@@ -363,8 +363,8 @@ describe('intergation test', function () {
 
 describe('unit test', function () {
     describe("buildCartItems", function () {
-        let allItems;
-        let inputs;
+        var allItems;
+        var inputs;
 
         beforeEach(function () {
             allItems = fixtures.loadAllItems();
@@ -381,7 +381,7 @@ describe('unit test', function () {
         });
 
         it("print a countItems array", function () {
-            const expectText = [
+            var expectText = [
                 {
                     item: {
                         barcode: 'ITEM000001',
@@ -416,8 +416,8 @@ describe('unit test', function () {
     });
 
     describe("buildReceiptItems", function () {
-        let cartItems;
-        let promotions;
+        var cartItems;
+        var promotions;
 
         beforeEach(function () {
             promotions = fixtures.loadPromotions();
@@ -453,7 +453,7 @@ describe('unit test', function () {
         });
 
         it("print a receiptItems array", function () {
-            const expectText = [
+            var expectText = [
                 {
                     cartItem: {
                         item: {
@@ -505,7 +505,7 @@ describe('unit test', function () {
     });
 
     describe("buildReceipt", function () {
-        let receiptItems;
+        var receiptItems;
 
         beforeEach(function () {
             receiptItems = [
@@ -551,7 +551,7 @@ describe('unit test', function () {
         });
 
         it("print a receipt object", function () {
-            const expectText =
+            var expectText =
             {
                 receiptItems: [
                     {
@@ -602,7 +602,7 @@ describe('unit test', function () {
     });
 
     describe("buildPromotionType", function () {
-        const receiptItems = [
+        var receiptItems = [
             {
                 cartItem: {
                     item: {
@@ -651,7 +651,7 @@ describe('unit test', function () {
 
 
         it("print a promotion text", function () {
-            const expectText = `----------------------
+            var expectText = `----------------------
 买二赠一商品：
 名称：雪碧，数量：1瓶                
 名称：荔枝，数量：0斤`;
