@@ -1,5 +1,5 @@
 'use strict';
-var fixtures = require('./fixtures.js');
+var fixtures = require('../spec/fixtures.js');
 function printReceipt(tags) {
 
     const allItems = fixtures.loadAllItems();
