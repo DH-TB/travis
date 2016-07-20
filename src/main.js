@@ -1,4 +1,3 @@
-'use strict';
 
 var fixtures = require('../spec/fixtures.js');
 
