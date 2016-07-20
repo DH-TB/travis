@@ -183,7 +183,7 @@ function text(receipt) {
         var cartItem = receiptItem.cartItem;
         text += '名称：' + cartItem.item.name + '，数量：' + receiptItem.cartItem.count + cartItem.item.unit + '，单价：' + formatPrice(cartItem.item.price) + '(元)，小计：' + formatPrice(receiptItem.subTotal) + '(元)\n';
 
-        if(receiptItems.type === '95_DISCOUNT'){
+        if(receiptItem.type === '95_DISCOUNT'){
             text+='节省'+receiptItem.saved+'(元)';
         }
     });
