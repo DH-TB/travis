@@ -86,9 +86,9 @@ function promotionsText(receiptItems) {
         var item = receiptItem.cartItem.item;
 
         if (receiptItem.promotionType == 'BUY_TWO_GET_ONE_FREE') {
-            title = (receiptItem.promotionType) ? ('----------------------\n买二赠一商品：\n') : '';
+            title = (receiptItem.promotionType) ? ('\n----------------------\n买二赠一商品：') : '';
 
-            text += '名称：' + item.name + '，数量：' + receiptItem.saveCount + item.unit + '\n';
+            text += '\n'+ '名称：' + item.name + '，数量：' + receiptItem.saveCount + item.unit;
         }
     });
     text = title + text;
