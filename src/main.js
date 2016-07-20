@@ -114,6 +114,8 @@ ${promotionsText(receipt.receiptItems) || ''}
 **********************`;
 }
 
+
+
 let formate = (price)=> {
     return price.toFixed(2);
 }
