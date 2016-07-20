@@ -5,7 +5,8 @@
   "start": "node src/main.js",
   "dependencies": {},
   "devDependencies": {
-    "jasmine": "^2.4.1"
+    "jasmine": "^2.4.1",
+    "jasmine-es6": "^0.2.1"
   },
   "scripts": {
     "test": "jasmine"

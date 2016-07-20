@@ -91,7 +91,7 @@ function promotionsText(receiptItems) {
 名称：${cartItem.item.name}，数量：${receiptItem.saveCount}${cartItem.item.unit}`;
         }
     });
-    return ${title}${text};
+    return `${title}${text}`;
 }
 
 
