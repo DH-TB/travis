@@ -1,7 +1,6 @@
 var mainData = require('../src/main.js');
 var fixtures = require('./fixtures.js');
 
-'use strict';
 
 describe('pos', () => {
     let inputs;
@@ -9,7 +8,7 @@ let allItems;
 
 beforeEach(() => {
     allItems = fixtures.loadAllItems();
-inputs = [
+inputs = [  
     'ITEM000001',
     'ITEM000001',
     'ITEM000001',

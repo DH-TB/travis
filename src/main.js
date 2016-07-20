@@ -1,10 +1,11 @@
 'use strict';
+var fixtures = require('./fixtures.js');
 function printReceipt(tags) {
 
-    const allItems = loadAllItems();
+    const allItems = fixtures.loadAllItems();
     const cartItems = buildCartItems(tags, allItems);
 
-    const allPromotions = loadPromotions();
+    const allPromotions = fixtures.loadPromotions();
     const receiptItems = buildReceiptItems(cartItems, allPromotions);
 
     const receipt = buildReceipt(receiptItems);
