@@ -1,80 +1,133 @@
-
 var fixtures = require('../spec/fixtures.js');
 
-function printReceipt(tags) {
-    const allItems = fixtures.loadAllItems();
-    const cartItems = buildCartItems(tags, allItems);
+function printReceipt(inputs) {
+    var allItems = fixtures.loadAllItems();
+    var cartItems = buildCartItems(inputs, allItems);
 
-    const promotions = fixtures.loadPromotions();
-    const receiptItems = buildReceiptItems(cartItems, promotions);
+    var promotions = fixtures.loadPromotions();
+    var receiptItems = buildReceiptItems(cartItems, promotions);
 
-    const receipt = buildReceipt(receiptItems);
-    const receiptText = buildReceiptText(receipt);
-
+    var receipt = buildReceipt(receiptItems);
+    var receiptText = buildReceiptText(receipt, receiptItems);
     console.log(receiptText);
 }
 
-function buildCartItems(inputs, allItems) {
-    let cartItems = [];
 
-    for (let input of inputs) {
-        let str = input.split('-');
-        let barcode = str[0];
-        let count = parseFloat(str[1] || 1);
+/*
+ 通过条形码查找对应的商品信息
+ */
 
-        let cartItem = cartItems.find(cartItem=>cartItem.item.barcode === barcode);
+function findItem(barcode, items) {
+    for (var i = 0; i < items.length; i++) {
+        var item = items[i];
+        if (barcode === item.barcode)
 
-        if (cartItem) {
-            cartItem.count++;
-        }
-        else {
-            let item = allItems.find(item=>item.barcode === barcode);
-            cartItems.push({item: item, count: count});
+            return item;
+    }
+}
+
+/*
+ 查找购物车商品信息
+ */
+
+function findCartItem(item, cartItems, count) {
+    for (var i = 0; i < cartItems.length; i++) {
+        if (item === cartItems[i].item) {
+            cartItems[i].count += count;
+
+            return cartItems;
         }
     }
+    cartItems.push({item: item, count: count});
 
     return cartItems;
 }
 
-function buildReceiptItems(cartItems, promotions) {
-    return cartItems.map(cartItem=> {
-        let promotionType = findPromotionType(cartItem.item.barcode, promotions);
-        let {saved, subTotal, saveCount} = disCount(cartItem, promotionType);
-        return {cartItem, saved, subTotal, saveCount, promotionType};
-    })
+
+/*
+ 构建购物车商品信息
+ */
+
+function buildCartItems(inputs, allItems) {
+    var cartItems = [];
+
+    inputs.forEach(function (input) {
+        var str = input.split("-");
+        var barcode = str[0];
+        var count = parseInt(str[1] || 1);
+        var item = findItem(barcode, allItems);
+        cartItems = findCartItem(item, cartItems, count);
+    });
+
+    return cartItems;
 }
 
+
+/*
+ 查找促销类型
+ */
 function findPromotionType(barcode, promotions) {
-    let promotion = promotions.find(promotion=>promotion.barcodes.includes(barcode));
+    for (var i = 0; i < promotions.length; i++) {
+        var promotion = promotions[i];
+        if (isBarcodeExist(barcode, promotion.barcodes)) {
 
-    return promotion ? promotion.type : '';
+            return promotion.type;
+        }
+    }
 }
 
-function disCount (cartItem, promotionType) {
-    let saved = 0;
-    let saveCount = 0;
-    let subTotal = cartItem.count * cartItem.item.price;
+/*
+ 通过条形码判断是否是促销商品
+ */
+function isBarcodeExist(barcode, barcodes) {
+    for (var i = 0; i < barcodes.length; i++) {
+        if (barcodes[i] == barcode)
 
-    if (promotionType === 'BUY_TWO_GET_ONE_FREE') {
-        saveCount = parseInt(cartItem.count / 3);
-        saved = saveCount * cartItem.item.price;
+            return true;
     }
-    if (promotionType === '95_DISCOUNT') {
-        saved = subTotal * 0.05;
-    }
-    subTotal -= saved;
-    return {saved, subTotal, saveCount};
+    return false;
 }
 
-function buildReceipt(receiptItems) {
-    let allSaved = 0;
-    let allTotal = 0;
-    for (let receiptItem of receiptItems) {
-        allSaved += receiptItem.saved;
-        allTotal += receiptItem.subTotal;
-    }
-    return {receiptItems, allSaved, allTotal};
+/*
+ 小计购物车商品价格
+ */
+function buildReceiptItems(cartItems, promotions) {
+    var receiptItems = [];
+
+    cartItems.forEach(function (cartItem) {
+        var saved = 0;
+        var saveCount = 0;
+        var subTotal = cartItem.count * cartItem.item.price;
+
+        var promotionType = findPromotionType(cartItem.item.barcode, promotions);
+
+        if (promotionType === 'BUY_TWO_GET_ONE_FREE') {
+            saveCount = parseInt(cartItem.count / 3);
+            saved = saveCount * cartItem.item.price;
+            subTotal -= saved;
+
+        }
+        if (promotionType === '95_DISCOUNT') {
+            saved = subTotal * 0.05;
+            subTotal -= saved;
+
+        }
+
+        receiptItems.push({
+            cartItem: cartItem,
+            saved: saved,
+            subTotal: subTotal,
+            saveCount: saveCount,
+            promotionType: promotionType
+        });
+    });
+
+    return receiptItems;
 }
+
+/*
+ “买二赠一”的优惠信息
+ */
 
 function promotionsText(receiptItems) {
     var text = '';
@@ -84,36 +137,66 @@ function promotionsText(receiptItems) {
         var item = receiptItem.cartItem.item;
 
         if (receiptItem.promotionType == 'BUY_TWO_GET_ONE_FREE') {
-            title = (receiptItem.promotionType) ? ('----------------------\n买二赠一商品：') : '';
+            title = (receiptItem.promotionType) ? ('----------------------\n买二赠一商品：\n') : '';
 
-            text += '\n'+ '名称：' + item.name + '，数量：' + receiptItem.saveCount + item.unit;
+            text += '名称：' + item.name + '，数量：' + receiptItem.saveCount + item.unit + '\n';
         }
     });
     text = title + text;
     return text;
 }
 
-function text(receiptItems) {
-   return receiptItems.map(receiptItem=> {
-        let cartItem = receiptItem.cartItem;
-        return `名称：${cartItem.item.name}，\
-数量：${cartItem.count}${cartItem.item.unit}，\
-单价：${formate(cartItem.item.price)}(元)，\
-小计：${formate(receiptItem.subTotal)}(元)`;
-    }).join('\n');
+/*
+ 计算所有商品的总价和节省价
+ */
+function buildReceipt(receiptItems) {
+    var receipt;
+    var total = 0;
+    var savedTotal = 0;
+
+    receiptItems.forEach(function (receiptItem) {
+        total += receiptItem.subTotal;
+        savedTotal += receiptItem.saved;
+    });
+    receipt = {receiptItem: receiptItems, savedTotal: savedTotal, total: total};
+
+    return receipt;
 }
 
-function buildReceiptText(receipt) {
-    return `***<没钱赚商店>收据***
-${text(receipt.receiptItems)}
-${promotionsText(receipt.receiptItems) || ''}
-----------------------
-总计：${formate(receipt.allTotal)}(元)
-节省：${formate(receipt.allSaved)}(元)
-**********************`;
+/*
+ 构建小票基本信息
+ */
+function buildReceiptText(receipt, receiptItems) {
+
+    return '***<没钱赚商店>收据***\n' + text(receipt) + (promotionsText(receiptItems) || '') + '----------------------\n' +
+        '总计：' + formatPrice(receipt.total) + '(元)\n' + '节省：' + formatPrice(receipt.savedTotal) + '(元)\n' + '**********************';
 }
 
-function formate(price) {
+/*
+ 构建小票商品信息
+ */
+function text(receipt) {
+    var text = '';
+    var receiptItems = receipt.receiptItem;
+
+    receiptItems.forEach(function (receiptItem) {
+        var cartItem = receiptItem.cartItem;
+        text += '名称：' + cartItem.item.name + '，数量：' + receiptItem.cartItem.count + cartItem.item.unit + '，单价：' + formatPrice(cartItem.item.price) + '(元)，小计：' + formatPrice(receiptItem.subTotal) + '(元)\n';
+
+        if(receiptItems.type === '95_DISCOUNT'){
+            text+='节省'+receiptItem.saved+'(元)';
+        }
+    });
+
+
+    return text;
+}
+
+/*
+ 价格输出格式化
+ */
+function formatPrice(price) {
+
     return price.toFixed(2);
 }
 
@@ -122,6 +205,5 @@ module.exports = {
     buildReceiptItems: buildReceiptItems,
     buildReceipt: buildReceipt,
     printReceipt: printReceipt,
-    buildReceiptText: buildReceiptText,
-    promotionsText:promotionsText
+    promotionsText: promotionsText
 };
