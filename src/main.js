@@ -108,7 +108,7 @@ function promotionsText(receiptItems) {
 
     return `${title}${text}`;
 
-
+}
 
 function text(receiptItems) {
    return receiptItems.map(receiptItem=> {
