@@ -95,20 +95,20 @@ function promotionsText(receiptItems) {
     return text;
 }
 
-let buildReceiptText = (receipt)=> {
-
-    let receiptItems = receipt.receiptItems.map(receiptItem=> {
+function text(receiptItems) {
+   return receiptItems.map(receiptItem=> {
         let cartItem = receiptItem.cartItem;
         return `名称：${cartItem.item.name}，\
 数量：${cartItem.count}${cartItem.item.unit}，\
 单价：${formate(cartItem.item.price)}(元)，\
 小计：${formate(receiptItem.subTotal)}(元)`;
     }).join('\n');
+}
 
-
+function buildReceiptText(receipt) {
     return `***<没钱赚商店>收据***
-${receiptItems}
-${(promotionsText(receiptItems) || '')}
+${text(receipt.receiptItems)}
+${promotionsText(receipt.receiptItems) || ''}
 ----------------------
 总计：${formate(receipt.allTotal)}(元)
 节省：${formate(receipt.allSaved)}(元)

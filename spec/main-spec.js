@@ -318,148 +318,6 @@ xdescribe('buildReceiptText', ()=> {
 
 const mainData = require('../src/main.js');
 const fixtures = require('./fixtures.js');
-describe("buildCartItems", function () {
-    let allItems;
-    let inputs;
-
-    beforeEach(function () {
-        allItems = fixtures.loadAllItems();
-        inputs = [
-            'ITEM000001',
-            'ITEM000001',
-            'ITEM000001',
-            'ITEM000001',
-            'ITEM000001',
-            'ITEM000003-2',
-            'ITEM000005',
-            'ITEM000005'
-        ];
-    });
-
-    it("print a countItems array", function () {
-        const expectText = [
-            {
-                item: {
-                    barcode: 'ITEM000001',
-                    name: '雪碧',
-                    unit: '瓶',
-                    price: 3.00
-                },
-                count: 5
-            },
-            {
-                item: {
-                    barcode: 'ITEM000003',
-                    name: '荔枝',
-                    unit: '斤',
-                    price: 15.00
-                },
-                count: 2
-            },
-            {
-                item: {
-                    barcode: 'ITEM000005',
-                    name: '方便面',
-                    unit: '袋',
-                    price: 5.50
-                },
-                count: 2
-            }
-        ];
-
-        expect(mainData.buildCartItems(inputs, allItems)).toEqual(expectText);
-    });
-});
-
-describe("buildReceiptItems", function () {
-    let cartItems;
-    let promotions;
-
-    beforeEach(function () {
-        promotions = fixtures.loadPromotions();
-        cartItems = [
-            {
-                item: {
-                    barcode: 'ITEM000001',
-                    name: '雪碧',
-                    unit: '瓶',
-                    price: 3.00
-                },
-                count: 5
-            },
-            {
-                item: {
-                    barcode: 'ITEM000003',
-                    name: '荔枝',
-                    unit: '斤',
-                    price: 15.00
-                },
-                count: 2
-            },
-            {
-                item: {
-                    barcode: 'ITEM000005',
-                    name: '方便面',
-                    unit: '袋',
-                    price: 5.50
-                },
-                count: 2
-            }
-        ];
-    });
-
-    it("print a receiptItems array", function () {
-        const expectText = [
-            {
-                cartItem: {
-                    item: {
-                        barcode: 'ITEM000001',
-                        name: '雪碧',
-                        unit: '瓶',
-                        price: 3.00
-                    },
-                    count: 5
-                },
-                saved: 3.00,
-                subTotal: 12.00,
-                saveCount: 1,
-                promotionType: 'BUY_TWO_GET_ONE_FREE'
-            },
-            {
-                cartItem: {
-                    item: {
-                        barcode: 'ITEM000003',
-                        name: '荔枝',
-                        unit: '斤',
-                        price: 15.00
-                    },
-                    count: 2
-                },
-                saved: 0.00,
-                subTotal: 30.00,
-                saveCount: 0,
-                promotionType: 'BUY_TWO_GET_ONE_FREE'
-            },
-            {
-                cartItem: {
-                    item: {
-                        barcode: 'ITEM000005',
-                        name: '方便面',
-                        unit: '袋',
-                        price: 5.50
-                    },
-                    count: 2
-                },
-                saved: 0.55,
-                subTotal: 10.45,
-                saveCount: 0,
-                promotionType: '95_DISCOUNT'
-            }];
-
-        expect(mainData.buildReceiptItems(cartItems, promotions)).toEqual(expectText);
-    });
-});
-
 
 describe('intergation test', function () {
 
@@ -501,8 +359,149 @@ describe('intergation test', function () {
     });
 });
 
-
 describe('unit test', function () {
+    describe("buildCartItems", function () {
+        let allItems;
+        let inputs;
+
+        beforeEach(function () {
+            allItems = fixtures.loadAllItems();
+            inputs = [
+                'ITEM000001',
+                'ITEM000001',
+                'ITEM000001',
+                'ITEM000001',
+                'ITEM000001',
+                'ITEM000003-2',
+                'ITEM000005',
+                'ITEM000005'
+            ];
+        });
+
+        it("print a countItems array", function () {
+            const expectText = [
+                {
+                    item: {
+                        barcode: 'ITEM000001',
+                        name: '雪碧',
+                        unit: '瓶',
+                        price: 3.00
+                    },
+                    count: 5
+                },
+                {
+                    item: {
+                        barcode: 'ITEM000003',
+                        name: '荔枝',
+                        unit: '斤',
+                        price: 15.00
+                    },
+                    count: 2
+                },
+                {
+                    item: {
+                        barcode: 'ITEM000005',
+                        name: '方便面',
+                        unit: '袋',
+                        price: 5.50
+                    },
+                    count: 2
+                }
+            ];
+
+            expect(mainData.buildCartItems(inputs, allItems)).toEqual(expectText);
+        });
+    });
+
+    describe("buildReceiptItems", function () {
+        let cartItems;
+        let promotions;
+
+        beforeEach(function () {
+            promotions = fixtures.loadPromotions();
+            cartItems = [
+                {
+                    item: {
+                        barcode: 'ITEM000001',
+                        name: '雪碧',
+                        unit: '瓶',
+                        price: 3.00
+                    },
+                    count: 5
+                },
+                {
+                    item: {
+                        barcode: 'ITEM000003',
+                        name: '荔枝',
+                        unit: '斤',
+                        price: 15.00
+                    },
+                    count: 2
+                },
+                {
+                    item: {
+                        barcode: 'ITEM000005',
+                        name: '方便面',
+                        unit: '袋',
+                        price: 5.50
+                    },
+                    count: 2
+                }
+            ];
+        });
+
+        it("print a receiptItems array", function () {
+            const expectText = [
+                {
+                    cartItem: {
+                        item: {
+                            barcode: 'ITEM000001',
+                            name: '雪碧',
+                            unit: '瓶',
+                            price: 3.00
+                        },
+                        count: 5
+                    },
+                    saved: 3.00,
+                    subTotal: 12.00,
+                    saveCount: 1,
+                    promotionType: 'BUY_TWO_GET_ONE_FREE'
+                },
+                {
+                    cartItem: {
+                        item: {
+                            barcode: 'ITEM000003',
+                            name: '荔枝',
+                            unit: '斤',
+                            price: 15.00
+                        },
+                        count: 2
+                    },
+                    saved: 0.00,
+                    subTotal: 30.00,
+                    saveCount: 0,
+                    promotionType: 'BUY_TWO_GET_ONE_FREE'
+                },
+                {
+                    cartItem: {
+                        item: {
+                            barcode: 'ITEM000005',
+                            name: '方便面',
+                            unit: '袋',
+                            price: 5.50
+                        },
+                        count: 2
+                    },
+                    saved: 0.55,
+                    subTotal: 10.45,
+                    saveCount: 0,
+                    promotionType: '95_DISCOUNT'
+                }];
+
+            expect(mainData.buildReceiptItems(cartItems, promotions)).toEqual(expectText);
+        });
+    });
+
     describe("buildReceipt", function () {
         let receiptItems;
 
@@ -600,65 +599,65 @@ describe('unit test', function () {
         });
     });
 
-});
-
-
-describe("buildPromotionType", function () {
-    const receiptItems = [
-        {
-            cartItem: {
-                item: {
-                    barcode: 'ITEM000001',
-                    name: '雪碧',
-                    unit: '瓶',
-                    price: 3.00
+    describe("buildPromotionType", function () {
+        const receiptItems = [
+            {
+                cartItem: {
+                    item: {
+                        barcode: 'ITEM000001',
+                        name: '雪碧',
+                        unit: '瓶',
+                        price: 3.00
+                    },
+                    count: 5
                 },
-                count: 5
+                saved: 3.00,
+                subTotal: 12.00,
+                saveCount: 1,
+                promotionType: 'BUY_TWO_GET_ONE_FREE'
             },
-            saved: 3.00,
-            subTotal: 12.00,
-            saveCount: 1,
-            promotionType: 'BUY_TWO_GET_ONE_FREE'
-        },
-        {
-            cartItem: {
-                item: {
-                    barcode: 'ITEM000003',
-                    name: '荔枝',
-                    unit: '斤',
-                    price: 15.00
+            {
+                cartItem: {
+                    item: {
+                        barcode: 'ITEM000003',
+                        name: '荔枝',
+                        unit: '斤',
+                        price: 15.00
+                    },
+                    count: 2
                 },
-                count: 2
+                saved: 0.00,
+                subTotal: 30.00,
+                saveCount: 0,
+                promotionType: 'BUY_TWO_GET_ONE_FREE'
             },
-            saved: 0.00,
-            subTotal: 30.00,
-            saveCount: 0,
-            promotionType: 'BUY_TWO_GET_ONE_FREE'
-        },
-        {
-            cartItem: {
-                item: {
-                    barcode: 'ITEM000005',
-                    name: '方便面',
-                    unit: '袋',
-                    price: 5.50
+            {
+                cartItem: {
+                    item: {
+                        barcode: 'ITEM000005',
+                        name: '方便面',
+                        unit: '袋',
+                        price: 5.50
+                    },
+                    count: 2
                 },
-                count: 2
-            },
-            saved: 0.55,
-            subTotal: 10.45,
-            saveCount: 0,
-            promotionType: '95_DISCOUNT'
-        }];
+                saved: 0.55,
+                subTotal: 10.45,
+                saveCount: 0,
+                promotionType: '95_DISCOUNT'
+            }];
 
 
-    it("print a promotion text", function () {
-        const expectText =
-            '----------------------\n' +
-            '买二赠一商品：\n' +
-            '名称：雪碧，数量：1瓶\n' +
-            '名称：荔枝，数量：0斤\n';
+        it("print a promotion text", function () {
+            const expectText =
+                '----------------------\n' +
+                '买二赠一商品：\n' +
+                '名称：雪碧，数量：1瓶\n' +
+                '名称：荔枝，数量：0斤\n';
 
-        expect(mainData.promotionsText(receiptItems)).toEqual(expectText);
+            expect(mainData.promotionsText(receiptItems)).toEqual(expectText);
+        });
     });
+
 });
+
