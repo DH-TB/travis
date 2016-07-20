@@ -1,12 +1,12 @@
 'use strict';
 
-function loadAllItems() {
+function loadAllItems(){
   return [
     {
       barcode: 'ITEM000000',
       name: '可口可乐',
       unit: '瓶',
-      price: 3.00
+      price: 6.00
     },
     {
       barcode: 'ITEM000001',
@@ -36,22 +36,28 @@ function loadAllItems() {
       barcode: 'ITEM000005',
       name: '方便面',
       unit: '袋',
-      price: 4.50
+      price: 5.50
     }
   ];
 }
+
 
 function loadPromotions() {
   return [
     {
       type: 'BUY_TWO_GET_ONE_FREE',
       barcodes: [
-        'ITEM000000',
+        'ITEM000001',
+        'ITEM000003',
+      ]
+    },
+    {
+      type: '95_DISCOUNT',
+      barcodes: [
         'ITEM000001',
         'ITEM000005'
       ]
     }
-
   ];
 }
 

@@ -38,50 +38,55 @@ function buildCartItems(inputs, allItems) {
     return cartItems;
 }
 
-let buildReceiptItems = (cartItems,promotions)=>{
-    return cartItems.map(cartItem=>{
-            let promotionType = getPromotionType (cartItem.item.barcode,promotions);
-    let {saved ,subTotal} = discount(cartItem,promotionType);
-    return {cartItem,saved,subTotal};
-})
+let buildReceiptItems = (cartItems, promotions)=> {
+    return cartItems.map(cartItem=> {
+        let promotionType = getPromotionType(cartItem.item.barcode, promotions);
+        let {saved, subTotal, saveCount} = discount(cartItem, promotionType);
+        return {cartItem, saved, subTotal, saveCount, promotionType};
+    })
 }
 
-let getPromotionType=(barcode,promotions)=>{
+let getPromotionType = (barcode, promotions)=> {
     let promotion = promotions.find(promotion=>promotion.barcodes.includes(barcode));
 
-    return promotion?promotion.type:'';
+    return promotion ? promotion.type : '';
 }
 
-let discount=(cartItem,promotionType)=>{
+let discount = (cartItem, promotionType)=> {
+    let saved = 0;
+    let subTotal = cartItem.count * cartItem.item.price;
     let saveCount = 0;
-    if(promotionType='BUY_TWO_GET_ONE_FREE'){
-        saveCount = parseInt(cartItem.count /3);
-    }
-    let saved = saveCount*cartItem.item.price;
-    let subTotal = cartItem.count * cartItem.item.price -saved;
 
-    return {saved,subTotal};
+    if (promotionType === 'BUY_TWO_GET_ONE_FREE') {
+        saveCount = parseInt(cartItem.count / 3);
+        saved = saveCount * cartItem.item.price;
+    }
+    if (promotionType === '95_DISCOUNT') {
+        saved = subTotal * 0.05;
+    }
+    subTotal -= saved;
+    return {saved, subTotal, saveCount};
 }
 
-let buildReceipt =(receiptItems)=>{
+let buildReceipt = (receiptItems)=> {
     let allSaved = 0;
     let allTotal = 0;
-    for(let receiptItem of receiptItems){
+    for (let receiptItem of receiptItems) {
         allSaved += receiptItem.saved;
         allTotal += receiptItem.subTotal;
     }
-    return {receiptItems,allSaved,allTotal};
+    return {receiptItems, allSaved, allTotal};
 }
 
-let buildReceiptText = (receipt)=>{
+let buildReceiptText = (receipt)=> {
 
     let receiptItems = receipt.receiptItems.map(receiptItem=> {
-            let cartItem = receiptItem.cartItem;
-    return `名称：${cartItem.item.name}，\
+        let cartItem = receiptItem.cartItem;
+        return `名称：${cartItem.item.name}，\
 数量：${cartItem.count}${cartItem.item.unit}，\
 单价：${formate(cartItem.item.price)}(元)，\
 小计：${formate(receiptItem.subTotal)}(元)`;
-}).join('\n');
+    }).join('\n');
 
     return `***<没钱赚商店>收据***
 ${receiptItems}
@@ -91,13 +96,14 @@ ${receiptItems}
 **********************`;
 }
 
-let formate = (price)=>{
+let formate = (price)=> {
     return price.toFixed(2);
 }
+
 module.exports = {
-    buildCartItems:buildCartItems,
-    buildReceiptItems:buildReceiptItems,
-    buildReceipt:buildReceipt,
-    printReceipt:printReceipt,
-    buildReceiptText:buildReceiptText
+    buildCartItems: buildCartItems,
+    buildReceiptItems: buildReceiptItems,
+    buildReceipt: buildReceipt,
+    printReceipt: printReceipt,
+    buildReceiptText: buildReceiptText
 };
