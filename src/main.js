@@ -78,6 +78,23 @@ let buildReceipt = (receiptItems)=> {
     return {receiptItems, allSaved, allTotal};
 }
 
+function promotionsText(receiptItems) {
+    var text = '';
+    var title = '';
+
+    receiptItems.forEach(function (receiptItem) {
+        var item = receiptItem.cartItem.item;
+
+        if (receiptItem.promotionType == 'BUY_TWO_GET_ONE_FREE') {
+            title = (receiptItem.promotionType) ? ('----------------------\n买二赠一商品：\n') : '';
+
+            text += '名称：' + item.name + '，数量：' + receiptItem.saveCount + item.unit + '\n';
+        }
+    });
+    text = title + text;
+    return text;
+}
+
 let buildReceiptText = (receipt)=> {
 
     let receiptItems = receipt.receiptItems.map(receiptItem=> {
@@ -87,9 +104,11 @@ let buildReceiptText = (receipt)=> {
 单价：${formate(cartItem.item.price)}(元)，\
 小计：${formate(receiptItem.subTotal)}(元)`;
     }).join('\n');
+    
 
     return `***<没钱赚商店>收据***
 ${receiptItems}
+$(promotionsText(receiptItems) || '')}
 ----------------------
 总计：${formate(receipt.allTotal)}(元)
 节省：${formate(receipt.allSaved)}(元)
