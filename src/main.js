@@ -76,22 +76,24 @@ function buildReceipt(receiptItems) {
     return {receiptItems, allSaved, allTotal};
 }
 
+
 function promotionsText(receiptItems) {
-    var text = '';
-    var title = '';
+    let title = '';
 
-    receiptItems.forEach(function (receiptItem) {
-        var item = receiptItem.cartItem.item;
-
+    let text = receiptItems.map(receiptItem=> {
+        const cartItem = receiptItem.cartItem;
         if (receiptItem.promotionType == 'BUY_TWO_GET_ONE_FREE') {
-            title = (receiptItem.promotionType) ? ('----------------------\n买二赠一商品：') : '';
-
-            text += '\n'+ '名称：' + item.name + '，数量：' + receiptItem.saveCount + item.unit;
+            title = (receiptItem.promotionType) ? (`----------------------
+买二赠一商品：
+`) : ``;
+            return `名称：${cartItem.item.name}，数量：${receiptItem.saveCount}${cartItem.item.unit}`;
         }
-    });
-    text = title + text;
-    return text;
+    }).join('\n');
+
+    return `${title}${text}`;
+
 }
+
 
 function text(receiptItems) {
    return receiptItems.map(receiptItem=> {
