@@ -655,10 +655,8 @@ describe('unit test', function () {
 买二赠一商品：
 名称：雪碧，数量：1瓶                
 名称：荔枝，数量：0斤`;
-
             expect(mainData.promotionsText(receiptItems)).toEqual(expectText);
         });
     });
 
 });
-
