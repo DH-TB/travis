@@ -552,7 +552,7 @@ describe('unit test', function () {
         it("print a receipt object", function () {
             const expectText =
             {
-                receiptItem: [
+                receiptItems: [
                     {
                         cartItem: {
                             item: {

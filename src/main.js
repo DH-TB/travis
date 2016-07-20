@@ -108,7 +108,7 @@ let buildReceiptText = (receipt)=> {
 
     return `***<没钱赚商店>收据***
 ${receiptItems}
-$(promotionsText(receiptItems) || '')}
+${(promotionsText(receiptItems) || '')}
 ----------------------
 总计：${formate(receipt.allTotal)}(元)
 节省：${formate(receipt.allSaved)}(元)
