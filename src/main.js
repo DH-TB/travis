@@ -51,7 +51,7 @@ function findPromotionType(barcode, promotions) {
     return promotion ? promotion.type : '';
 }
 
-function disCount(cartItem, promotionType) {
+function disCount (cartItem, promotionType) {
     let saved = 0;
     let saveCount = 0;
     let subTotal = cartItem.count * cartItem.item.price;
@@ -76,40 +76,26 @@ function buildReceipt(receiptItems) {
     }
     return {receiptItems, allSaved, allTotal};
 }
-/*
- function promotionsText(receiptItems) {
- var text = '';
- var title = '';
 
- receiptItems.forEach(function (receiptItem) {
- var item = receiptItem.cartItem.item;
-
- if (receiptItem.promotionType == 'BUY_TWO_GET_ONE_FREE') {
- title = (receiptItem.promotionType) ? ('----------------------\n买二赠一商品：') : '';
-
- text += '\n'+ '名称：' + item.name + '，数量：' + receiptItem.saveCount + item.unit;
- }
- });
- text = title + text;
- return text;
- }*/
 function promotionsText(receiptItems) {
-    let title = '';
+    var text = '';
+    var title = '';
 
-    let text = receiptItems.map(receiptItem=> {
-        const cartItem = receiptItem.cartItem;
+    receiptItems.forEach(function (receiptItem) {
+        var item = receiptItem.cartItem.item;
+
         if (receiptItem.promotionType == 'BUY_TWO_GET_ONE_FREE') {
-            title = (receiptItem.promotionType) ? (`----------------------
-买二赠一商品：`) : ``;
-            return `名称：${cartItem.item.name}，数量：${receiptItem.saveCount}${cartItem.item.unit}`;
-        }
-    }).join('\n');
+            title = (receiptItem.promotionType) ? ('----------------------\n买二赠一商品：') : '';
 
-    return `${title}
-${text}`;
+            text += '\n'+ '名称：' + item.name + '，数量：' + receiptItem.saveCount + item.unit;
+        }
+    });
+    text = title + text;
+    return text;
 }
+
 function text(receiptItems) {
-    return receiptItems.map(receiptItem=> {
+   return receiptItems.map(receiptItem=> {
         let cartItem = receiptItem.cartItem;
         return `名称：${cartItem.item.name}，\
 数量：${cartItem.count}${cartItem.item.unit}，\
@@ -138,5 +124,5 @@ module.exports = {
     buildReceipt: buildReceipt,
     printReceipt: printReceipt,
     buildReceiptText: buildReceiptText,
-    promotionsText: promotionsText
+    promotionsText:promotionsText
 };
