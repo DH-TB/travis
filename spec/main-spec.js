@@ -1,4 +1,4 @@
-describe('pos', () => {
+xdescribe('pos', () => {
     let inputs;
     let allItems;
 
@@ -70,7 +70,7 @@ describe('pos', () => {
     });
 });
 
-describe('buildReceiptItems', ()=> {
+xdescribe('buildReceiptItems', ()=> {
     let cartItems;
     let promotions;
 
@@ -155,7 +155,7 @@ describe('buildReceiptItems', ()=> {
     });
 });
 
-describe('buildReceipt', ()=> {
+xdescribe('buildReceipt', ()=> {
     let receiptItems = [
         {
             cartItem: {
@@ -252,7 +252,7 @@ describe('buildReceipt', ()=> {
 
 });
 
-describe('buildReceiptText', ()=> {
+xdescribe('buildReceiptText', ()=> {
     const receipt =
     {
         receiptItems: [
