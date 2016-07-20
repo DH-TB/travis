@@ -315,7 +315,6 @@ xdescribe('buildReceiptText', ()=> {
 });
 
 
-
 var mainData = require('../src/main.js');
 var fixtures = require('./fixtures.js');
 
@@ -346,10 +345,10 @@ describe('intergation test', function () {
         mainData.printReceipt(inputs);
 
         var expectText =
-        `***<没钱赚商店>收据***
+            `***<没钱赚商店>收据***
 名称：雪碧，数量：5瓶，单价：3.00(元)，小计：12.00(元)
 名称：荔枝，数量：2斤，单价：15.00(元)，小计：30.00(元)
-名称：方便面，数量：2袋，单价：5.50(元)，小计：10.45(元)
+名称：方便面，数量：2袋，单价：5.50(元)，小计：10.45(元) 
 ----------------------
 买二赠一商品：
 名称：雪碧，数量：1瓶
@@ -602,6 +601,7 @@ describe('unit test', function () {
         });
     });
 
+
     describe("buildPromotionType", function () {
         var receiptItems = [
             {
@@ -652,12 +652,13 @@ describe('unit test', function () {
 
 
         it("print a promotion text", function () {
-            var expectText = `----------------------
-买二赠一商品：
-名称：雪碧，数量：1瓶                
-名称：荔枝，数量：0斤`;
+            var expectText =
+                '----------------------\n' +
+                '买二赠一商品：\n' +
+                '名称：雪碧，数量：1瓶\n' +
+                '名称：荔枝，数量：0斤\n';
+
             expect(mainData.promotionsText(receiptItems)).toEqual(expectText);
         });
     });
-
 });
